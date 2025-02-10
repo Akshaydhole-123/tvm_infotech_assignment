@@ -111,7 +111,7 @@ public class ProductService implements ProductInterface {
         } catch (Exception e) {
 
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.OK).body("Invalid Data");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid Data");
         }
     }
 }

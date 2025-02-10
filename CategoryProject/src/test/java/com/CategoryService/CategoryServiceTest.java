@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -41,13 +42,13 @@ public class CategoryServiceTest {
         MockitoAnnotations.initMocks(this);
     }
 
-    public List<Category> mycategory;
+
 
     @Test
     @Order(1)
     public void test_getAllCategory(){
 
-        List<Category> mycategory=new ArrayList<Category>();
+        List<Category> mycategory=new ArrayList<>();
         mycategory.add(new Category(201,"Cast"));
 
 
@@ -57,7 +58,7 @@ public class CategoryServiceTest {
         ResponseEntity<List<Category>> response=  categoryService.getAllCategory();
 
         assertEquals(HttpStatus.OK,response.getStatusCode());
-        assertFalse(response.getBody().isEmpty());
+        assertFalse(Objects.requireNonNull(response.getBody()).isEmpty());
 
         assertEquals(1,response.getBody().size());
 

@@ -1,7 +1,7 @@
 package com.CategoryService;
 
 
-import com.CategoryService.Interfase.CategoryInterfase;
+import com.CategoryService.Interface.CategoryInterfase;
 import com.CategoryService.controller.CategoryController;
 import com.CategoryService.entity.Category;
 

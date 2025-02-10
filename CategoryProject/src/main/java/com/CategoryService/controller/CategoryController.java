@@ -1,6 +1,6 @@
 package com.CategoryService.controller;
 
-import com.CategoryService.Interfase.CategoryInterfase;
+import com.CategoryService.Interface.CategoryInterfase;
 import com.CategoryService.entity.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

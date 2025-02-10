@@ -1,9 +1,9 @@
 package com.CategoryService.service;
 
-import com.CategoryService.Interfase.CategoryInterfase;
+import com.CategoryService.Interface.CategoryInterfase;
 
 
-import com.CategoryService.Interfase.ProductClient;
+import com.CategoryService.Interface.ProductClient;
 import com.CategoryService.entity.Category;
 
 import com.CategoryService.repository.CategoryRepository;
