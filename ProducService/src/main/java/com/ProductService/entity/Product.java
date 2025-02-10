@@ -36,6 +36,4 @@ public class Product {
     @JsonProperty("categoryId")
     private int categoryId;
 
-
-
 }

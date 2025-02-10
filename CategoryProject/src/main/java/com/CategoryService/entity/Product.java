@@ -2,6 +2,15 @@ package com.CategoryService.entity;
 
 
 public class Product {
+
+    private int productId;
+
+    private String productName;
+
+    private double productPrice;
+
+    private int categoryId;
+
     public int getCategoryId() {
         return categoryId;
     }
@@ -33,20 +42,17 @@ public class Product {
     public void setCategoryId(int categoryId) {
         this.categoryId = categoryId;
     }
-public Product(int productId,String productName, double productPrice,int categoryId){
-        this.productId=productId;
-        this.productName=productName;
-        this.productPrice=productPrice;
-        this.categoryId=categoryId;
-}
-public Product(){
+
+    public Product(int productId, String productName, double productPrice, int categoryId) {
+        this.productId = productId;
+        this.productName = productName;
+        this.productPrice = productPrice;
+        this.categoryId = categoryId;
+    }
+
+    public Product() {
         super();
-}
-    private int productId;
+    }
 
-    private String productName;
 
-    private double productPrice;
-
-    private int categoryId;
 }

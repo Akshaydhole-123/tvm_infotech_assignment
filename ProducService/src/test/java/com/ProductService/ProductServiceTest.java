@@ -44,7 +44,7 @@ public class ProductServiceTest {
 
         Mockito.when(productRepository.findAll()).thenReturn(productList);
 
-        ResponseEntity<List<Product>> response= productService.getAllProducts();
+        ResponseEntity<List<Product>> response= (ResponseEntity<List<Product>>) productService.getAllProducts();
 
         assertEquals(HttpStatus.OK,response.getStatusCode());
         assertEquals(1,response.getBody().size());

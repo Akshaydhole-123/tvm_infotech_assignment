@@ -23,7 +23,7 @@ public class ProductService implements ProductInterface {
 
     @Override
     public ResponseEntity<String> createProduct(Product product) {
-        try{
+        try {
             productRepository.save(product);
             return ResponseEntity.status(HttpStatus.OK).body("Product Created Successfully");
         } catch (Exception e) {
@@ -33,7 +33,7 @@ public class ProductService implements ProductInterface {
 
     @Override
     public List<Product> getProductsByCategory(Integer categoryId) {
-        List<Product> products= productRepository.findByCategoryId(categoryId);
+        List<Product> products = productRepository.findByCategoryId(categoryId);
         if (!products.isEmpty())
             return products;
         return null;
@@ -48,13 +48,14 @@ public class ProductService implements ProductInterface {
                 return ResponseEntity.status(HttpStatus.OK).body(products);
 
         } catch (Exception e) {
-            e.printStackTrace();        }
+            e.printStackTrace();
+        }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Product Does Not exists");
     }
 
     @Override
     public ResponseEntity<String> updateByProductId(int productId, Product product) {
-        try{
+        try {
             productRepository.save(product);
             return ResponseEntity.status(HttpStatus.OK).body("Product Updated Successfully");
         } catch (Exception e) {
@@ -69,17 +70,17 @@ public class ProductService implements ProductInterface {
             if (product.isPresent())
                 return ResponseEntity.status(HttpStatus.OK).body(product.get());
 
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
-               return ResponseEntity.status(HttpStatus.OK).body("Product does not Exists");
+        return ResponseEntity.status(HttpStatus.OK).body("Product does not Exists");
     }
 
     @Override
     public ResponseEntity<String> deleteByProductId(int productId) {
-        try{
+        try {
             Optional<Product> product = productRepository.findById(productId);
-            if(product.isPresent()) {
+            if (product.isPresent()) {
                 productRepository.delete(product.get());
             }
             return ResponseEntity.status(HttpStatus.OK).body("Product Deleted Successfully");
@@ -92,28 +93,28 @@ public class ProductService implements ProductInterface {
     public ResponseEntity<?> getCategoryByProductPrice(Integer categoryId, Double productPrice) {
 
         ArrayList<Product> productList;
-      try {
-          if (categoryId != null && productPrice != null) {
-              productList = (ArrayList<Product>) productRepository.findByCategoryIdAndProductPrice(categoryId, productPrice);
-          } else if (categoryId != null) {
-              productList = (ArrayList<Product>) productRepository.findByCategoryId(categoryId);
-          } else if (productPrice != null) {
-              productList = (ArrayList<Product>) productRepository.findByProductPrice(productPrice);
-          } else {
-              productList = (ArrayList<Product>) productRepository.findAll();
-          }
-          if (!productList.isEmpty()) {
-              return ResponseEntity.status(HttpStatus.OK).body(productList);
-          } else {
-              return ResponseEntity.status(HttpStatus.OK).body("Price And Category does Not Exists");
-          }
-      }catch (Exception e){
+        try {
+            if (categoryId != null && productPrice != null) {
+                productList = (ArrayList<Product>) productRepository.findByCategoryIdAndProductPrice(categoryId, productPrice);
+            } else if (categoryId != null) {
+                productList = (ArrayList<Product>) productRepository.findByCategoryId(categoryId);
+            } else if (productPrice != null) {
+                productList = (ArrayList<Product>) productRepository.findByProductPrice(productPrice);
+            } else {
+                productList = (ArrayList<Product>) productRepository.findAll();
+            }
+            if (!productList.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.OK).body(productList);
+            } else {
+                return ResponseEntity.status(HttpStatus.OK).body("Price And Category does Not Exists");
+            }
+        } catch (Exception e) {
 
-          e.printStackTrace();
-          return ResponseEntity.status(HttpStatus.OK).body("Invalid Data");
-      }
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.OK).body("Invalid Data");
+        }
     }
-    }
+}
 
 
 
