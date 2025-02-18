@@ -55,7 +55,7 @@ public class CategoryServiceTest {
         Mockito.when(categoryRepository.findAll()).thenReturn(mycategory);
 
 
-        ResponseEntity<List<Category>> response=  categoryService.getAllCategory();
+        ResponseEntity<List<Category>> response= (ResponseEntity<List<Category>>) categoryService.getAllCategory();
 
         assertEquals(HttpStatus.OK,response.getStatusCode());
         assertFalse(Objects.requireNonNull(response.getBody()).isEmpty());

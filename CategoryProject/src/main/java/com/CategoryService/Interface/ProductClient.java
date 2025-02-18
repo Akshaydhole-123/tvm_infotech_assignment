@@ -12,7 +12,9 @@ import java.util.List;
 @FeignClient(name = "PRODUCT-SERVICE")
 public interface ProductClient {
 
+
     @GetMapping("/product/category/{categoryId}")
+
     List<Product> getProductsByCategory(@PathVariable int categoryId);
 
 }

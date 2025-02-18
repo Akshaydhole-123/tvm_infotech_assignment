@@ -39,24 +39,36 @@ public class CategoryService implements CategoryInterfase {
     @Override
     public ResponseEntity<?> getByCategory(int id) {
 
-        Optional<Category> category = categoryRepository.findById(id);
-        if (category.isPresent()) {
-            return ResponseEntity.status(HttpStatus.OK).body(category.get());
-        } else
-            return ResponseEntity.status(HttpStatus.OK).body("Id does not exists");
+        try {
+
+            Category category = categoryRepository.findById(id).orElse(null);
+
+
+            category.setProductList(productClient.getProductsByCategory(category.getId()));
+            return ResponseEntity.status(HttpStatus.OK).body(category);
+        }
+        catch (Exception e){
+            return ResponseEntity.status(HttpStatus.OK).body("Category Not exists ");
+        }
     }
 
     @Override
-    public ResponseEntity<List<Category>> getAllCategory() {
-        List<Category>  categories=categoryRepository.findAll();
+    public ResponseEntity<?> getAllCategory() {
+        try {
 
-          List<Category> newCategory = categories.stream().map(category -> {
-              category.setProductList(productClient.getProductsByCategory(category.getId()));
-              return category;
-          }).collect(Collectors.toList());
 
-          return ResponseEntity.status(HttpStatus.OK).body(newCategory);
+            List<Category> categories = categoryRepository.findAll();
 
+            List<Category> newCategory = categories.stream().map(category -> {
+                category.setProductList(productClient.getProductsByCategory(category.getId()));
+                return category;
+            }).collect(Collectors.toList());
+
+            return ResponseEntity.status(HttpStatus.OK).body(newCategory);
+        }
+        catch (Exception e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("All Category Details Not Found ");
+        }
 
       }
 

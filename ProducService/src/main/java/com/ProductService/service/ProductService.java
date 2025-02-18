@@ -27,7 +27,7 @@ public class ProductService implements ProductInterface {
             productRepository.save(product);
             return ResponseEntity.status(HttpStatus.OK).body("Product Created Successfully");
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error while creating category");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error while creating product");
         }
     }
 

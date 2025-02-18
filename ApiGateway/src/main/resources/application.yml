@@ -1,0 +1,23 @@
+#spring:
+#  cloud:
+#    gateway:
+#      globalcors:
+#        corsConfigurations:
+#          '[/**]':
+#            allowedOrigins: "*"
+#            allowedMethods: "*"
+#            allowedHeaders: "*"
+#
+#
+#            spring:
+#              cloud:
+#                gateway:
+#                  routes:
+#                    - id: category-service
+#                      uri: http://localhost:8080/
+#                      predicates:
+#                        - Path=/category/**
+#                    - id: product-service
+#                      uri: http://localhost:8082/
+#                      predicates:
+#                        - Path=/product/**
