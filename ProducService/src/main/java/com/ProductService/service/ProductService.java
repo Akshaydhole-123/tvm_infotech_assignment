@@ -4,6 +4,7 @@ package com.ProductService.service;
 import com.ProductService.Interface.ProductInterface;
 import com.ProductService.entity.Product;
 import com.ProductService.Repository.ProductRepository;
+import org.reactivestreams.Publisher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +26,7 @@ public class ProductService implements ProductInterface {
     public ResponseEntity<String> createProduct(Product product) {
         try {
             productRepository.save(product);
-            return ResponseEntity.status(HttpStatus.OK).body("Product Created Successfully");
+            return (ResponseEntity<String>) ResponseEntity.status(HttpStatus.OK).body("Product Created Successfully");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error while creating product");
         }
@@ -59,7 +60,7 @@ public class ProductService implements ProductInterface {
             productRepository.save(product);
             return ResponseEntity.status(HttpStatus.OK).body("Product Updated Successfully");
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error while updating category");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error while updating Product");
         }
     }
 
@@ -73,7 +74,7 @@ public class ProductService implements ProductInterface {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return ResponseEntity.status(HttpStatus.OK).body("Product does not Exists");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Product does not Exists");
     }
 
     @Override
@@ -85,7 +86,7 @@ public class ProductService implements ProductInterface {
             }
             return ResponseEntity.status(HttpStatus.OK).body("Product Deleted Successfully");
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error while Deleted product");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error while Deleted product");
         }
     }
 

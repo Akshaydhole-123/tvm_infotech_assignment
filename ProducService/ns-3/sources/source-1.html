@@ -1,0 +1,141 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > CategoryController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.CategoryService.controller</a>
+</div>
+
+<h1>Coverage Summary for Class: CategoryController (com.CategoryService.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CategoryController</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.CategoryService.controller;
+&nbsp;
+&nbsp;import com.CategoryService.Interface.CategoryInterfase;
+&nbsp;import com.CategoryService.entity.Category;
+&nbsp;import io.swagger.v3.oas.annotations.Operation;
+&nbsp;import io.swagger.v3.oas.annotations.tags.Tag;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.http.ResponseEntity;
+&nbsp;import org.springframework.web.bind.annotation.*;
+&nbsp;
+&nbsp;
+&nbsp;@RestController
+&nbsp;@RequestMapping(&quot;/category&quot;)
+&nbsp;
+&nbsp;@Tag(name = &quot;Category Service&quot;, description = &quot;Operation related to Category Service&quot;)
+<b class="nc">&nbsp;public class CategoryController {</b>
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    private CategoryInterfase categoryInterfase;
+&nbsp;
+&nbsp;    @Operation(summary = &quot;Create new Category &quot;,description =&quot;Add a new Category&quot; )
+&nbsp;    @PostMapping(&quot;&quot;)
+&nbsp;    public ResponseEntity&lt;String&gt; createCategory(@RequestBody Category category) {
+<b class="nc">&nbsp;        return categoryInterfase.createCategory(category);</b>
+&nbsp;    }
+&nbsp;    @Operation(summary = &quot;Get Category by Id&quot;,description =&quot;Retrieve Details Of Specific Category Products &quot; )
+&nbsp;    @GetMapping(&quot;/{id}&quot;)
+&nbsp;    public ResponseEntity&lt;?&gt; getByCatrgory(@PathVariable int id) {
+<b class="nc">&nbsp;        return categoryInterfase.getByCategory(id);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Operation(summary = &quot;Get All Category &quot;,description =&quot;Retrieve All Category Details&quot; )
+&nbsp;    @GetMapping
+&nbsp;    public ResponseEntity&lt;?&gt; getAllCategory() {
+<b class="nc">&nbsp;        return categoryInterfase.getAllCategory();</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-24 10:51</div>
+</div>
+</body>
+</html>

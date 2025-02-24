@@ -1,0 +1,179 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > CategoryService</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.CategoryService.service</a>
+</div>
+
+<h1>Coverage Summary for Class: CategoryService (com.CategoryService.service)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CategoryService</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/18)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.CategoryService.service;
+&nbsp;
+&nbsp;import com.CategoryService.Interface.CategoryInterfase;
+&nbsp;
+&nbsp;
+&nbsp;import com.CategoryService.Interface.ProductClient;
+&nbsp;import com.CategoryService.entity.Category;
+&nbsp;
+&nbsp;import com.CategoryService.repository.CategoryRepository;
+&nbsp;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.http.HttpStatus;
+&nbsp;import org.springframework.http.ResponseEntity;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Optional;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;@Service
+<b class="nc">&nbsp;public class CategoryService implements CategoryInterfase {</b>
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    private CategoryRepository categoryRepository;
+&nbsp;    @Autowired
+&nbsp;    private ProductClient productClient;
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public ResponseEntity&lt;String&gt; createCategory(Category category) {
+&nbsp;        try{
+<b class="nc">&nbsp;            categoryRepository.save(category);</b>
+<b class="nc">&nbsp;            return ResponseEntity.status(HttpStatus.OK).body(&quot;Category Created Successfully&quot;);</b>
+<b class="nc">&nbsp;        } catch (Exception e) {</b>
+<b class="nc">&nbsp;            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(&quot;Error while creating category&quot;);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public ResponseEntity&lt;?&gt; getByCategory(int id) {
+&nbsp;
+&nbsp;        try {
+&nbsp;
+<b class="nc">&nbsp;            Category category = categoryRepository.findById(id).orElse(null);</b>
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;            category.setProductList(productClient.getProductsByCategory(category.getId()));</b>
+<b class="nc">&nbsp;            return ResponseEntity.status(HttpStatus.OK).body(category);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        catch (Exception e){</b>
+<b class="nc">&nbsp;            return ResponseEntity.status(HttpStatus.OK).body(&quot;Category Not exists &quot;);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public ResponseEntity&lt;?&gt; getAllCategory() {
+&nbsp;        try {
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;            List&lt;Category&gt; categories = categoryRepository.findAll();</b>
+&nbsp;
+<b class="nc">&nbsp;            List&lt;Category&gt; newCategory = categories.stream().map(category -&gt; {</b>
+<b class="nc">&nbsp;                category.setProductList(productClient.getProductsByCategory(category.getId()));</b>
+<b class="nc">&nbsp;                return category;</b>
+<b class="nc">&nbsp;            }).collect(Collectors.toList());</b>
+&nbsp;
+<b class="nc">&nbsp;            return ResponseEntity.status(HttpStatus.OK).body(newCategory);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        catch (Exception e){</b>
+<b class="nc">&nbsp;            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(&quot; Category Does Not Exists &quot;);</b>
+&nbsp;        }
+&nbsp;
+&nbsp;      }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-24 10:51</div>
+</div>
+</body>
+</html>

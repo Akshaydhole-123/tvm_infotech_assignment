@@ -1,97 +1,107 @@
 package com.CategoryService;
 
+import com.CategoryService.Interface.ProductClient;
 import com.CategoryService.entity.Category;
+import com.CategoryService.entity.Product;
 import com.CategoryService.repository.CategoryRepository;
 import com.CategoryService.service.CategoryService;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-
+import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class CategoryServiceTest {
-
 
     @Mock
     CategoryRepository categoryRepository;
 
+    @Mock
+    private ProductClient productClient;
+
     @InjectMocks
     CategoryService categoryService;
 
-    @Before
+    private Category category1, category3;
+    private Product product1;
+
+    @BeforeEach
     public void setUp(){
 
-        MockitoAnnotations.initMocks(this);
+        category1= new Category(103,"Bike");
+        product1 =new Product(1,"splender",40000,103);
+        category3=new Category();
     }
-
-
 
     @Test
     @Order(1)
     public void test_getAllCategory(){
 
-        List<Category> mycategory=new ArrayList<>();
-        mycategory.add(new Category(201,"Cast"));
-
-
-        Mockito.when(categoryRepository.findAll()).thenReturn(mycategory);
-
-
-        ResponseEntity<List<Category>> response= (ResponseEntity<List<Category>>) categoryService.getAllCategory();
-
+        when(categoryRepository.findAll()).thenReturn(Arrays.asList(category1));
+        when(productClient.getProductsByCategory(category1.getId())).thenReturn(Arrays.asList(product1));
+        ResponseEntity<?> response=  categoryService.getAllCategory();
         assertEquals(HttpStatus.OK,response.getStatusCode());
-        assertFalse(Objects.requireNonNull(response.getBody()).isEmpty());
+        assertNotNull(response.getBody());
+        assertInstanceOf(List.class, response.getBody());
+        assertEquals(1,((List<?>) response.getBody()).size());
 
-        assertEquals(1,response.getBody().size());
+    }
+    @Test
+    public void test_AllCategoryNotExist(){
 
+        when(categoryRepository.findAll()).thenReturn(null);
+        ResponseEntity<?> response=  categoryService.getAllCategory();
+        assertEquals(HttpStatus.NOT_FOUND,response.getStatusCode());
+        assertEquals("Category Does Not Exists", response.getBody());
 
     }
     @Test
     @Order(2)
     public void test_getByCategory(){
-        Integer id=104;
-        Category mycate=new Category(104,"phone") ;
 
-
-
-        Mockito.when(categoryRepository.findById(id)).thenReturn(Optional.of(mycate));
-
+        int id = 103;
+        Mockito.when(categoryRepository.findById(id)).thenReturn(Optional.ofNullable(category1));
+        Mockito.when(productClient.getProductsByCategory(id)).thenReturn(Arrays.asList(product1));
 
         ResponseEntity<?> response= categoryService.getByCategory(id);
         assertEquals(HttpStatus.OK,response.getStatusCode());
-        assertEquals(mycate,response.getBody());
+        assertTrue(response.getBody() instanceof Category);
+        Category categoryResponse=(Category) response.getBody();
+        assertNotNull(categoryResponse);
+        assertEquals("Bike", ((Category) response.getBody()).getCategoryName());
+        assertEquals(1,  categoryResponse.getProductList().size());
+    }
 
+    @Test
+    public void test_categorynotFound(){
+
+        int id = 103;
+        Mockito.when(categoryRepository.findById(id)).thenReturn(Optional.ofNullable(null));
+        ResponseEntity<?> response= categoryService.getByCategory(id);
+        assertEquals(HttpStatus.OK,response.getStatusCode());
+        assertEquals("Category Not exists ",response.getBody());
 
     }
+
     @Test
     @Order(3)
     public void test_createCategory(){
 
         Category category=new Category(105,"car");
-
         when(categoryRepository.save(any(Category.class))).thenReturn(category);
-
-
         ResponseEntity<String> response=categoryService.createCategory(category);
-
         assertNotNull(response);
         assertEquals(HttpStatus.OK,response.getStatusCode());
         assertEquals("Category Created Successfully",response.getBody());

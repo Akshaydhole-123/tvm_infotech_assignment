@@ -67,7 +67,7 @@ public class CategoryService implements CategoryInterfase {
             return ResponseEntity.status(HttpStatus.OK).body(newCategory);
         }
         catch (Exception e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("All Category Details Not Found ");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(" Category Does Not Exists ");
         }
 
       }

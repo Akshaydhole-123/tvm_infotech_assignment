@@ -4,79 +4,68 @@ package com.CategoryService;
 import com.CategoryService.Interface.CategoryInterfase;
 import com.CategoryService.controller.CategoryController;
 import com.CategoryService.entity.Category;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Test;
-
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Order;
-
-import org.mockito.Mockito;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
-
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultMatcher;
-
+import java.util.Arrays;
 import java.util.List;
-
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.jsonPath;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
-
-@WebMvcTest(CategoryController.class)
-
 public class CategoryControllerTest {
 
-    @Autowired
-    private MockMvc mockMvc;
+    @InjectMocks
+    private CategoryController categoryController;
 
+    @Mock
+    private CategoryInterfase categoryInterfase;
 
-
-    @MockitoBean
-    private  CategoryInterfase categoryInterfase;
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
+    }
 
     @Test
     @Order(1)
-    public void test_getAllCategory()throws Exception{
+    public void test_getAllCategory() {
 
-        List<Category> categories= List.of(new Category(202,"Pass"));
-
-        when(categoryInterfase.getAllCategory()).thenReturn((ResponseEntity<List<Category>>) categories);
-
-        mockMvc.perform(get("/category"))
-                .andExpect(status().isOk())
-                .andExpect((ResultMatcher) jsonPath("$.size()").value(1))
-                .andExpect((ResultMatcher) jsonPath("$[0].name").value("Pass"));
-
+        List<Category> categories = Arrays.asList(new Category(202, "Pass"), new Category(203, "Bike"));
+        when(categoryInterfase.getAllCategory()).thenReturn(new ResponseEntity(categories, HttpStatus.OK));
+        ResponseEntity<?> response = categoryController.getAllCategory();
+        Assertions.assertNotNull(response);
+        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
+        Assertions.assertEquals(categories, response.getBody());
     }
 
     @Test
     @Order(2)
-    public void test_createCategory() throws Exception{
+    public void test_createCategory() {
 
-        Category categories=new  Category(205,"Pass");
-
-        Mockito.when(categoryInterfase.createCategory(any(Category.class))).thenReturn(ResponseEntity.status(HttpStatus.OK).<String>body(String.valueOf(categories)));
-
-        mockMvc.perform(post("/category")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(new ObjectMapper().writeValueAsString(categories)))
-                .andExpect(status().isCreated())
-                .andExpect((ResultMatcher) jsonPath("$.categoryName").value("Pass"));
+        Category categories = new Category(205, "Pass");
+        when(categoryInterfase.createCategory(categories)).thenReturn(new ResponseEntity<>("Category Created Successfully", HttpStatus.OK));
+        ResponseEntity<String> response = categoryController.createCategory(categories);
+        Assertions.assertNotNull(response);
+        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
+        Assertions.assertEquals("Category Created Successfully", response.getBody());
 
     }
 
+    @Test
+    @Order(3)
+    public void test_getByProduct() {
+        Category category = new Category(202, "Pass");
 
-
+        when(categoryInterfase.getByCategory(202)).thenReturn(new ResponseEntity(category, HttpStatus.OK));
+        ResponseEntity<?> response = categoryController.getByCatrgory(202);
+        Assertions.assertNotNull(response);
+        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
+        Assertions.assertEquals(category, response.getBody());
+    }
 }
