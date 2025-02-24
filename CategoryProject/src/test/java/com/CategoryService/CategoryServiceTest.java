@@ -74,7 +74,6 @@ public class CategoryServiceTest {
         int id = 103;
         Mockito.when(categoryRepository.findById(id)).thenReturn(Optional.ofNullable(category1));
         Mockito.when(productClient.getProductsByCategory(id)).thenReturn(Arrays.asList(product1));
-
         ResponseEntity<?> response= categoryService.getByCategory(id);
         assertEquals(HttpStatus.OK,response.getStatusCode());
         assertTrue(response.getBody() instanceof Category);
@@ -105,9 +104,5 @@ public class CategoryServiceTest {
         assertNotNull(response);
         assertEquals(HttpStatus.OK,response.getStatusCode());
         assertEquals("Category Created Successfully",response.getBody());
-
-
     }
-
-
 }

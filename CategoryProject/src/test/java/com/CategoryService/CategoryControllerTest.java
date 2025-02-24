@@ -31,7 +31,6 @@ public class CategoryControllerTest {
     void setUp() {
         MockitoAnnotations.openMocks(this);
     }
-
     @Test
     @Order(1)
     public void test_getAllCategory() {
@@ -60,8 +59,8 @@ public class CategoryControllerTest {
     @Test
     @Order(3)
     public void test_getByProduct() {
-        Category category = new Category(202, "Pass");
 
+        Category category = new Category(202, "Pass");
         when(categoryInterfase.getByCategory(202)).thenReturn(new ResponseEntity(category, HttpStatus.OK));
         ResponseEntity<?> response = categoryController.getByCatrgory(202);
         Assertions.assertNotNull(response);
